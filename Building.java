@@ -3,11 +3,13 @@ public class Building {
     protected String name;
     protected String address;
     protected int nFloors;
+    protected int initialCapacity;
     protected int activeFloor = -1; // Default value indicating we are not inside this building
-
+    public boolean haselevator;
     /* Default constructor */
     public Building() {
         this("<Name Unknown>", "<Address Unknown>", 1);
+        this.haselevator= false;
     }
 
     /* Overloaded constructor with address only */
@@ -19,16 +21,29 @@ public class Building {
     /* Overloaded constructor with name, address */
     public Building(String name, String address) {
         this(name, address, 1); // Call full constructor with hard-coded # floors
+        this.haselevator= false;
     }
 
     /* Full constructor */
     public Building(String name, String address, int nFloors) {
-        if (name != null) { this.name = name; }
-        if (address != null) { this.address = address; } 
+        if (name != null) {
+             this.name = name;
+             }
+        if (address != null) {
+             this.address = address; 
+            } 
         if (nFloors < 1) {
             throw new RuntimeException("Cannot construct a building with fewer than 1 floor.");
         }
         this.nFloors = nFloors;
+        this.haselevator= false;
+    }
+    public Building( String name, String address, int nFloors, boolean haselevator, int initialCapacity){
+        this.name= name;
+        this.address= address;
+        this.nFloors= nFloors;
+        this.haselevator= haselevator;
+        this.initialCapacity= initialCapacity;
     }
 
     /* Accessors */
@@ -67,14 +82,13 @@ public class Building {
     }
 
     public void goToFloor(int floorNum) {
-        if (this.activeFloor == -1) {
+        if (activeFloor== -1) {
             throw new RuntimeException("You are not inside this Building. Must call enter() before navigating between floors.");
         }
-        if (floorNum < 1 || floorNum > this.nFloors) {
-            throw new RuntimeException("Invalid floor number. Valid range for this Building is 1-" + this.nFloors +".");
-        }
-        System.out.println("You are now on floor #" + floorNum + " of " + this.name);
-        this.activeFloor = floorNum;
+       else{
+            System.out.println("You are now on floor #" + floorNum + " of " + name);
+            activeFloor = floorNum;
+       }   
     }
 
     public void goUp() {
@@ -90,7 +104,7 @@ public class Building {
     }
 
     public String toString() {
-        return this.name + " is a " + this.nFloors + "-story building located at " + this.address + ".";
+        return this.name + " is a " + this.nFloors + "-story building located at " + this.address + "."+" It is "+this.haselevator+" that it has an alevator";
     }
 
     public static void main(String[] args) {
@@ -109,6 +123,6 @@ public class Building {
         fordHall.goUp();
         fordHall.goDown();
         fordHall.exit();
+        System.out.println(fordHall);
     }
-
 }
