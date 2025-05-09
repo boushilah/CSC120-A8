@@ -4,7 +4,9 @@ public class CampusMap {
 
     ArrayList<Building> buildings;
 
-    /* Default constructor, initializes empty ArrayList */
+    /**
+     * Constructor
+     */
     public CampusMap() {
         buildings = new ArrayList<Building>();
     }
@@ -29,7 +31,9 @@ public class CampusMap {
         System.out.println("-->Successfully removed " + b.getName() + " to the map.");
         return b;
     }
-
+    /**
+     * prints the directory of all campus buildings added. 
+     */
     public String toString() {
         String mapString = "DIRECTORY of BUILDINGS";
 
@@ -38,14 +42,12 @@ public class CampusMap {
         }
         return mapString;
     }
-   
     public void showOptions() {
     for( Building b: buildings){
     System.out.println(" In "+b.getName()+" you can choose the following options:");
     b.showOptions();
         }
     }
-    
 
     public static void main(String[] args) {
         CampusMap myMap = new CampusMap();

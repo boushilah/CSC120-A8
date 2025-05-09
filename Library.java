@@ -5,7 +5,7 @@ public class Library extends Building{
  * Hastable for book collection.
  */
 private Hashtable<String, Boolean> collection;
-int activeFloor=1;
+//int activeFloor = 1;
 
 /**
  * Constructor
@@ -19,7 +19,13 @@ public Library(String name, String address, int nFloors) {
   collection = new Hashtable<String, Boolean>();
   System.out.println("You have built a library: 📖");
 }
-
+/**
+ * Constructor
+ * @param name the name of the library
+ * @param address he address at which the libray is located
+ * @param nFloors the number of floors of the library.
+ * @param haelevator whether the library has an elevator or not
+ */
 public Library(String name, String address, int nFloors, boolean haselevator) {
   super(name, address, nFloors);
   this.haselevator= true;
@@ -36,6 +42,15 @@ public void addTitle(String title){
   System.out.println("[] "+title+" has been added to the collection");
 }
 /**
+ * method for add the title to the collection.
+ * @param title name of the book to be added
+ * @param author name of the author of the book
+ */
+public void addTitle(String title, String author) {
+  collection.put(title + " by " + author, true);
+  System.out.println("[] " + title + " by " + author + " has been added to the collection");
+}
+/**
  * method removes the book from the collection
  * @param title name of the book to be removed.
  */
@@ -44,8 +59,7 @@ public String removeTitle(String title){
     collection.remove(title);
     System.out.println("This book has been removed");
     return title;
-  }
-  else{
+  } else{
     System.out.println("The requested title is not found");
     return null;
   }
@@ -57,8 +71,7 @@ public String removeTitle(String title){
 public void checkOut(String title){
   if(collection.containsKey(title)&& (collection.get(title)==true)){
     collection.put(title,false);
-}
-  else{
+} else{
     System.out.println("This book is not available");
 }
 }
@@ -70,8 +83,7 @@ public void returnBook(String title){
   if(collection.containsKey(title)){
     if(collection.get(title)==false){
       collection.put(title,true);
-    }
-    else{
+    } else{
       System.out.println(title+" is already returned");
     }
   }
@@ -79,38 +91,35 @@ public void returnBook(String title){
 /**
  * Checks to see if the collection contains the title of the book.
  * @param title is the name of the book to be checked. 
- * returns true if the title appears as a key in the Libary's collection, false otherwise
+ * @return  true if the title appears as a key in the Libary's collection, false otherwise
  */
 public boolean containsTitle(String title){
   if(collection.containsKey(title)){
     return true;
-  }
-  else{
+  } else{
     return false;
   }
 }
 /**
- * Checks if the 
- * returns true if the title is currently available, false otherwise
+ * Checks if the book is available in the collection
+ * @return  true if the title is currently available, false otherwise
  */
 public boolean isAvailable(String title){
   if(collection.containsKey(title)){
     if((collection.get(title)==true)){
       System.out.println(title+" is available");
       return true;
-    }
-    else{
+    } else{
     System.out.println(title+" is not available");
     return false;
-    }}
-    else{
+    }} else{
     System.out.println("Unfortunately, we do not have ("+ title+") book in our collection");
     return false;
     }
       
 }
 /**
- *  prints out the entire collection in an easy-to-read way (including checkout status)
+ *  prints the collection
  */
 public void printCollection(){
   System.out.println("");
@@ -123,65 +132,56 @@ public void printCollection(){
     System.out.println("[] " + title + " [" + status + "]");
   }
 }
-
+/**
+ * @return the name of the collection and its size
+ */
 @Override
 public String toString(){
   return super.toString()+" and our collection currently has "+collection.size()+" books.";
 }
+/**
+ * prints out the shows available in the library
+ */
 public void showOptions(){
-  System.out.println("The available options at "+name+" are: \n 1. Enter()" + "\n 2. Exit \n 3. goToFloor(floorNum) \n 4. CheckOut(booktitle) \n 5. removeTitle(Booktitle) \n 6. containsTitle(Booktitle) \n 7. returnBook(Booktitle) \n 8. printCollection()" );
-}
-
-public Building enter() {
-  if (activeFloor != -1) {
-    throw new RuntimeException("You are already inside this Building.");
-  }
-  this.activeFloor = 1;
-  System.out.println("You are now inside " + name + " on the ground floor.");
-  return this; // Return a pointer to the current building
-}
-public Building exit() {
-  if (this.activeFloor == -1) {
-    throw new RuntimeException("You are not inside this Building. Must call enter() before exit().");
-    }
-  if (this.activeFloor > 1) {
-    throw new RuntimeException("You have fallen out a window from floor #" +this.activeFloor + "!");
-  }
-  System.out.println("You have left " + name + ".");
-  this.activeFloor = -1; // We're leaving the building, so we no longer have a valid active floor
-  return null; // We're outside now, so the building is null
+  super.showOptions();
+  System.out.println(" + CheckOut(booktitle) \n + removeTitle(Booktitle) \n + containsTitle(Booktitle) \n + returnBook(Booktitle) \n + printCollection() \n" );
 }
 /**
- * Takes you to a different floor.
- * @param floorNum takes the number of the floor you are moving to.
+ * Allows up movement in the library 
  */
-public void goToFloor(int floorNum) {
-  if (haselevator) {
-    System.out.println("You are now on floor #" + floorNum + " of " + name);
-    activeFloor = floorNum;    
-  }
-  else{
-    throw new RuntimeException("You are not inside this Building. Must call enter() before navigating between floors.");  
-  }   
-}
 public void goUp() {
   this.goToFloor(this.activeFloor + 1);
 }
-
+/**
+ * Allows down movement in the library 
+ */
 public void goDown() {
   this.goToFloor(this.activeFloor - 1);
 }
+public void goToFloor(int floorNum) {
+    if (!inside) {
+        throw new RuntimeException("You must enter the building first.");
+    }
+    if (floorNum < 1 || floorNum > nFloors) {
+        throw new IllegalArgumentException("That floor doesn't exist.");
+    }
+
+    activeFloor = floorNum;
+    System.out.println("You are now on floor #" + floorNum + " of " + name);
+}
 
 public static void main(String[] args) {
- Library Neilson = new Library("Neilson", "7 Neilson Drive", 4);
- System.out.println(Neilson);
+  Library Neilson = new Library("Neilson", "7 Neilson Drive", 4);
+  Neilson.enter();
+  System.out.println(Neilson);
   Neilson.showOptions();
-  Neilson.addTitle("Language studies by Andy Kabagena");
+  Neilson.addTitle("Ibyiza bitatse U Rwanda");
+  Neilson.addTitle("Inema","Kelly Madla");
   Neilson.isAvailable("Ururimi by Bwiza");
-  Neilson.addTitle("Ururimi by Bwiza ");
-  Neilson.addTitle("Mystery Mouseketool by Mickey Mouse");
-  Neilson.addTitle("The unseen by K Konate");
+  Neilson.addTitle("Ururimi","Bwiza");
+  Neilson.addTitle("Mystery Mouseketool","Mickey Mouse");
+  Neilson.addTitle("The unseen"," K Konate");
   Neilson.printCollection();
-  Neilson.goToFloor(3);
+  Neilson.goToFloor(5);
 }
 }

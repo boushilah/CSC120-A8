@@ -48,7 +48,7 @@ ___ 2 pt: Complies with style guidelines (missing items 1 pt each):
 
       Yes___ Classes & class members all have Javadoc header comments
 
-      Part___ Clear and consistent indentation of bracketed sections
+      YES___ Clear and consistent indentation of bracketed sections
 
       Yes__ Adheres to Java conventions on naming & capitalization
 

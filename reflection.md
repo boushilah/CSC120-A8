@@ -7,4 +7,5 @@ In class House:
 _I overloaded the constructor since sometimes it is a crucial part of the construction process to know the maximum number of people who would reside in the building. Additionally, I give the constructor the functionality of only needing the name, address, and number of floors at construction time. 
 In class library: 
 _ I overloaded the constructor, similar to the house constructor, because some libraries do not have an elevator. 
+_ I overloaded the addtitle() method, for allowing the addition of a book with just a title and also adding title with an author's name
 - What worked, what didn't, what advice would you give someone taking this course in the future?

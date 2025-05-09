@@ -1,11 +1,10 @@
 import java.util.Scanner;
 public class Cafe extends Building {
 //Attributes
-private int nCoffeeOunces; // The number of ounces of coffee remaining in inventory
-private int nSugarPackets; // The number of sugar packets remaining in inventory
-private int nCreams; // The number of "splashes" of cream remaining in inventory
-private int nCups; // The number of cups remaining in inventory
-
+private int nCoffeeOunces; 
+private int nSugarPackets; 
+private int nCreams; 
+private int nCups; 
 /**
  * 
  * @param name takes the name of the cafe
@@ -25,7 +24,7 @@ public Cafe(String name, String address, int nCoffeeounces, int sugarPackets, in
 System.out.println("You have built a cafe: ☕");
  }
 /**
- * overloaded default cafe
+ * Constructor
  */
  public Cafe(){
     super();
@@ -35,18 +34,11 @@ System.out.println("You have built a cafe: ☕");
     this.nCups= 100;
  }
 /**
- * Takes you to another floor
- * @param floorNum takes the number of the desired floor.
+ * Shows the available options in the house
  */
-public void goToFloor( int floorNum){
-    if(floorNum>1){
-        System.out.println("Upper floors are only for employees");
-    }
-}
-
 public void ShowOptions(){
-    System.out.println("Options:");
-    System.out.println(" [1] Enter()\n [2] exit()\n [3] sellCoffee()\n [4] restock()\n");
+    super.showOptions();
+    System.out.println(" + sellCoffee()\n + restock()\n");
 }
 
  /**
@@ -56,15 +48,13 @@ public void ShowOptions(){
   * @param nCreams the amount of cream that goes into the cafe. 
   */
  public void sellCoffee(int size, int nSugarPackets, int nCreams){
-    if((nCoffeeOunces-size>=0)&&(nSugarPackets-nSugarPackets>=0)&& (nCreams-nCreams>=0)&&(nCups>=0))
-    {
+    if((nCoffeeOunces-size>=0)&&(nSugarPackets-nSugarPackets>=0)&& (nCreams-nCreams>=0)&&(nCups>=0)){
         nCoffeeOunces-=12;
         nSugarPackets-= 2;
         nCreams-=3;
         nCups-=1;
         System.out.println("Order placed Successfully. Coffe's Ready!");
-    }
-    else{
+    } else{
         System.out.println("");
         System.out.println("We don't have the required stock!");
         System.out.println("Would you like to restock?");
@@ -77,15 +67,14 @@ public void ShowOptions(){
     }
 }
 /**
- * overloaded method to 
- * @param size takes the size of the coffe
+ * overloaded sell coffee method
+ * @param size the size of the coffee ordered
  */
 public void sellCoffee(int size){
     if(this.nCoffeeOunces-size>=0){
         this.nCoffeeOunces-=size;
         System.out.println("Order placed Successfully. Coffe's Ready!");
-    }
-    else{
+    } else{
     restock(20,50,50,50);
     }
 }
@@ -116,6 +105,18 @@ private void restock(int nCoffeeOunces, int nCreams){
     System.out.println("The updated stock is:");
     System.out.println("Coffee ounces: "+nCoffeeOunces+", Packets of Creams: "+nCreams);
 }
+/**
+ * Takes you to another floor
+ * @param floorNum takes the number of the desired floor.
+ */
+public void goToFloor( int floorNum){
+    if(floorNum>1){
+        throw new RuntimeException("The upper floors are reserved for employees only.");
+    }
+}
+/** 
+ * prints the details about the house
+ */
 public String toString() {
     return this.name + " is a " + this.nFloors + "-story cafe located at " + this.address;
 }
